@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>Stacked Area Chart</title>
+  <!-- <link href="https://playground.anychart.com/y7Y3OAGf/iframe" rel="canonical">
+  <meta content="AJAX Chart,Area Chart,Chart from CSV,Chart using CSV,Multi-Series Chart,Spline Area Chart,Stacked Chart" name="keywords">
+  <meta content="AnyChart - JavaScript Charts designed to be embedded and integrated" name="description">
+  [if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  <style>html,
+body,
+#container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}</style>
+ </head>
+ <body>
+  <script src="https://cdn.anychart.com/releases/8.8.0/js/anychart-core.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.8.0/js/anychart-data-adapter.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.8.0/js/anychart-cartesian.min.js"></script>
+  <div id="container"></div>
+  <script type="text/javascript">anychart.onDocumentReady(function () {
+    // anychart.data.loadGoogleSpreadsheet('1vLGbBZoBDXVT3IaykMb4HhvfXgoAOzEM3Rrk1xLN5aU', function(data) {
+    anychart.data.loadCsvFile("https://github.com/yunjieliu000/samplegraphs/edit/main/Book1.csv", function (data) {
+    // set the data and ignore the first row that contains headers
+    var dataSet = anychart.data.set(data, {ignoreFirstRow: true});
+// https://raw.githubusercontent.com/yunjieliu000/samplegraphs/main/sampledata.csv?token=GHSAT0AAAAAABUF5UCNJXL2SDESDDUFVSN4YTR3SCQ
+// https://static.anychart.com/git-storage/word-press/data/covid-19-italy/data.csv
+    // map data for the deaths series
+    var deathsData = dataSet.mapAs({ 'x': 0, 'value': 2 });
+
+    // map data for the recovered series
+    var recoveredData = dataSet.mapAs({ 'x': 0, 'value': 3 });
+
+    // map data for the active series
+    // var activeData = dataSet.mapAs({ 'x': 0, 'value': 4 });
+
+    // specify the area chart type
+    var chart = anychart.area();
+
+    // create a series with the mapped active data
+    // var actSeries = chart.splineArea(activeData);
+
+    // create a series with the mapped recovered data
+    var recSeries = chart.splineArea(recoveredData);
+
+    // create series with the mapped deaths data
+    var deathsSeries = chart.splineArea(deathsData);
+
+    // force the chart to stack values by the y scale
+    chart.yScale().stackMode('value');
+
+    // set the chart title
+    chart.title('Covid-19 in Italy');
+
+    // set the labels of the axes
+    chart.xAxis().title("Date");
+    chart.yAxis().title("Number of people");
+
+    // turn on the crosshair
+    var crosshair = chart.crosshair();
+    crosshair.enabled(true)
+      .yStroke(null)
+      .xStroke('#fff')
+      .zIndex(39);
+    crosshair.yLabel().enabled(false);
+
+    // set the container id for the chart
+    chart.container('container');
+
+    // initiate chart drawing
+    chart.draw();
+  });
+});</script>
+ </body>
+</html>
